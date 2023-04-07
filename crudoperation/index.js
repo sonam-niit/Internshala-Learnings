@@ -8,7 +8,7 @@ storage.init();
 app.get("/employee",async(req,res)=>{
     const employees = await storage.getItem("employees");
     //res.send(employees);
-
+    console.log(employees)
     let html=`<h1>Employee data</h1>
         <table>
             <thead>
@@ -30,6 +30,12 @@ app.get("/employee",async(req,res)=>{
     })
     html+= '</table>';
     res.send(html);
+})
+app.get("/employee/test/:id",async(req,res)=>{
+    const id= req.params.id;
+    const employee = await storage.valuesWithKeyMatch('employees')
+    console.log(employee);
+
 })
 app.get("/employee/:id",async(req,res)=>{
     const employees = await storage.getItem("employees");
