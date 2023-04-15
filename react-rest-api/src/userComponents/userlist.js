@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 export function UserList(props) {
 
+    const navigate = useNavigate();
     //create a users state with initial value as empty array
     const [users, setUsers] = useState([]);
     const url = 'http://localhost:5000/api/user/'
@@ -10,11 +13,7 @@ export function UserList(props) {
     useEffect(() => {
         getData();
     }, [])
-    const viewUser = (id) => {
-        // props.history.push({
-        //     pathname:'/details/'+id
-        // })
-    }
+
     const deleteUser = async (id) => {
         await axios.delete(`${url}/${id}`);
         getData();
@@ -34,9 +33,15 @@ export function UserList(props) {
                 <td>{user.password}</td>
                 <td>{user.country}</td>
                 <td>
-                <button className="btn btn-success" onClick={() => { viewUser(user._id) }}>
-                        view
+
+                    <button className="btn btn-success" onClick={() => { navigate(`/details/${user._id}/`) }}>
+                        View
                     </button>
+                    &nbsp;&nbsp;
+                    <button className="btn btn-warning" onClick={() => { navigate(`/edituser/${user._id}/`) }}>
+                        Edit
+                    </button>
+                    &nbsp;&nbsp;
                     <button className="btn btn-danger" onClick={() => { deleteUser(user._id) }}>
                         Delete
                     </button>
